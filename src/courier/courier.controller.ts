@@ -3,31 +3,31 @@ import { CourierService } from './courier.service';
 import { CreateCourierDto } from './dto/create-courier.dto';
 import { UpdateCourierDto } from './dto/update-courier.dto';
 
-@Controller("api")
+@Controller("courier")
 export class CourierController {
   constructor(private readonly courierService: CourierService) {}
 
-  @Post("courier")
+  @Post("")
   create(@Body() createCourierDto: CreateCourierDto) {
     return this.courierService.create(createCourierDto);
   }
 
-  @Get("courier")
+  @Get("")
   findAll() {
     return this.courierService.findAll();
   }
 
-  @Get("courier/:id")
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.courierService.findOne(+id);
   }
 
-  @Patch("courier/:id")
+  @Patch(":id")
   update(@Param("id") id: string, @Body() updateCourierDto: UpdateCourierDto) {
     return this.courierService.update(+id, updateCourierDto);
   }
 
-  @Delete("courier/:id")
+  @Delete(":id")
   remove(@Param("id") id: string) {
     return this.courierService.remove(+id);
   }

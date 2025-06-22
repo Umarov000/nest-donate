@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
-import { Admin } from './models/admin.model';
-import { InjectModel } from '@nestjs/sequelize';
+import { Injectable } from "@nestjs/common";
+import { CreateAdminDto } from "./dto/create-admin.dto";
+import { UpdateAdminDto } from "./dto/update-admin.dto";
+import { Admin } from "./models/admin.model";
+import { InjectModel } from "@nestjs/sequelize";
 
 @Injectable()
 export class AdminsService {
@@ -13,24 +13,26 @@ export class AdminsService {
   }
 
   async findAll(): Promise<Admin[]> {
-    return await this.adminModule.findAll();
+    return await this.adminModule.findAll({ include: { all: true } });
   }
 
   async findOne(id: number): Promise<Admin | null> {
-    return await this.adminModule.findByPk(id);
+    return await this.adminModule.findByPk(id, { include: { all: true } });
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
-   const updatedAdmin = await this.adminModule.update(updateAdminDto, {where:{id}, returning:true})
-   return updatedAdmin[1][0]
+    const updatedAdmin = await this.adminModule.update(updateAdminDto, {
+      where: { id },
+      returning: true,
+    });
+    return updatedAdmin[1][0];
   }
 
   async remove(id: number) {
-   const res = await this.adminModule.destroy({where:{id}})
-   if (res > 0) {
-     return `Admin ochirildi`;
-   }
-   return `Admin Mavjud emas`;
-   
+    const res = await this.adminModule.destroy({ where: { id } });
+    if (res > 0) {
+      return `Admin ochirildi`;
+    }
+    return `Admin Mavjud emas`;
   }
 }

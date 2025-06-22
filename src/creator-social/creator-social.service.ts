@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCreatorSocialDto } from './dto/create-creator-social.dto';
-import { UpdateCreatorSocialDto } from './dto/update-creator-social.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateCreatorSocialDto } from "./dto/create-creator-social.dto";
+import { UpdateCreatorSocialDto } from "./dto/update-creator-social.dto";
+import { InjectModel } from "@nestjs/sequelize";
+import { CreatorSocial } from "./models/creator-social.model";
 
 @Injectable()
 export class CreatorSocialService {
-  create(createCreatorSocialDto: CreateCreatorSocialDto) {
-    return 'This action adds a new creatorSocial';
+  constructor(
+    @InjectModel(CreatorSocial) private creatorSocialModel: typeof CreatorSocial
+  ) {}
+  async create(createCreatorSocialDto: CreateCreatorSocialDto) {
+    return await this.creatorSocialModel.create(createCreatorSocialDto);
   }
 
   findAll() {
-    return `This action returns all creatorSocial`;
+    return this.creatorSocialModel.findAll({ include: { all: true } });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} creatorSocial`;
+    return this.creatorSocialModel.findByPk(id, { include: { all: true } });
   }
 
-  update(id: number, updateCreatorSocialDto: UpdateCreatorSocialDto) {
-    return `This action updates a #${id} creatorSocial`;
+  async update(id: number, updateCreatorSocialDto: UpdateCreatorSocialDto) {
+    const updatedData = await this.creatorSocialModel.update(
+      updateCreatorSocialDto,
+      { where: { id }, returning: true }
+    );
+    return updatedData[1][0]
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} creatorSocial`;
+  async remove(id: number) {
+    const res = await this.creatorSocialModel.destroy({where:{id}})
+    if(res>0) return `Creator-Social ochirildi`
+    return `Bunday Creator-Social mavjud emas`;
   }
 }

@@ -25,6 +25,7 @@ export class UsersService {
     return `User topilmadi`;
   }
   return updatedUser[1][0]
+
   }
 
   async remove(id: number) {

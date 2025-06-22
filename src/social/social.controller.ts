@@ -3,31 +3,31 @@ import { SocialService } from './social.service';
 import { CreateSocialDto } from './dto/create-social.dto';
 import { UpdateSocialDto } from './dto/update-social.dto';
 
-@Controller("api")
+@Controller("social")
 export class SocialController {
   constructor(private readonly socialService: SocialService) {}
 
-  @Post("social")
+  @Post("")
   create(@Body() createSocialDto: CreateSocialDto) {
     return this.socialService.create(createSocialDto);
   }
 
-  @Get("social")
+  @Get("")
   findAll() {
     return this.socialService.findAll();
   }
 
-  @Get("social/:id")
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.socialService.findOne(+id);
   }
 
-  @Patch("social/:id")
+  @Patch(":id")
   update(@Param("id") id: string, @Body() updateSocialDto: UpdateSocialDto) {
     return this.socialService.update(+id, updateSocialDto);
   }
 
-  @Delete("social/:id")
+  @Delete(":id")
   remove(@Param("id") id: string) {
     return this.socialService.remove(+id);
   }

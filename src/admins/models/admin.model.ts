@@ -1,10 +1,11 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { Role } from "../../roles/models/role.model";
+import { AdminRole } from "../../admin-role/models/admin-role.model";
 
 interface IAdmin {
   full_name: string;
   email: string;
-  phone: string;
-  role: string;
+ 
   password_hash: string;
   is_active: boolean;
 }
@@ -27,15 +28,6 @@ export class Admin extends Model<Admin, IAdmin> {
   })
   declare email: string;
 
-  @Column({
-    type: DataType.STRING(15),
-  })
-  declare phone: string;
-
-  @Column({
-    type: DataType.STRING,
-  })
-  declare role: string;
 
   @Column({
     type: DataType.STRING,
@@ -44,4 +36,7 @@ export class Admin extends Model<Admin, IAdmin> {
 
   @Column({ type: DataType.BOOLEAN, defaultValue: false })
   declare is_active: boolean;
+  
+  @BelongsToMany(()=> Role, ()=>AdminRole)
+      roles: Role[]
 }

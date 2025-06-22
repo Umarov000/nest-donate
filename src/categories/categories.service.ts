@@ -22,7 +22,8 @@ export class CategoriesService {
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
 
-    return await this.categoryModel.update(updateCategoryDto, {where:{id}, returning:true})
+     const updatedData = await this.categoryModel.update(updateCategoryDto, {where:{id}, returning:true})
+     return updatedData[1][0];
   }
 
   async remove(id: number) {

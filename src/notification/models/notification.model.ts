@@ -1,13 +1,19 @@
-import { BelongsTo, Column, DataType, ForeignKey, Table } from "sequelize-typescript"
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { User } from "../../users/models/user.model";
 
-interface INotification{
-    userId:number
-    message:Text
+interface INotification {
+  userId: number;
+  message: string; 
 }
-
-@Table({ tableName: "notification" })
-export class Notification {
+@Table({ tableName: "notifications" }) 
+export class Notification extends Model<Notification, INotification> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -16,12 +22,12 @@ export class Notification {
   declare id: number;
 
   @Column({ type: DataType.TEXT })
-  declare message: Text;
+  declare message: string; 
 
-  @ForeignKey(()=>User)
-  @Column({ type: DataType.INTEGER , onDelete:"CASCADE"})
-  userId: number;
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER, onDelete: "CASCADE" })
+  declare userId: number;
 
-  @BelongsTo(()=>User)
-  user:User
+  @BelongsTo(() => User)
+  declare user: User;
 }

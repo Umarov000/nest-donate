@@ -1,4 +1,6 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { Social } from "../../social/models/social.model";
+import { CreatorSocial } from "../../creator-social/models/creator-social.model";
 
 interface IUser {
   full_name: string;
@@ -53,4 +55,6 @@ export class User extends Model<User, IUser> {
     type: DataType.STRING,
   })
   declare banner_url: string;
+  @BelongsToMany(()=> Social, ()=>CreatorSocial)
+    socials: Social[]
 }
